@@ -111,8 +111,8 @@ object GTVoiceManager {
         intent.component = ComponentName(gtPkg, voiceSDKService)
         try {
             context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
-        }catch (e:Exception){
-            Log.e(tag,"init error:${e.message}")
+        } catch (e: Exception) {
+            Log.e(tag, "init error:${e.message}")
         }
     }
 
@@ -132,6 +132,25 @@ object GTVoiceManager {
     }
 
     /**
+     * 设置按钮序号状态
+     * @param show
+     * true：显示
+     * false:隐藏
+     * 只在应用内生效
+     */
+    fun setViewIndexState(show: Boolean) {
+        val context = contextHolder.get()
+        if (isServiceBound && context != null) {
+            binder.setViewIndexState(context.packageName, show)
+        } else {
+            Log.e(
+                tag,
+                "setViewIndexState 错误 请检查SDK是否初始化：${context != null} ServiceBound:$isServiceBound"
+            )
+        }
+    }
+
+    /**
      * SDK 逆初始化
      */
     @Synchronized
@@ -147,8 +166,8 @@ object GTVoiceManager {
                 Log.e(tag, "服务解绑异常：${e.message}")
                 e.printStackTrace()
             }
-        }else{
-            Log.w(tag,"SDK已释放，无需重复释放")
+        } else {
+            Log.w(tag, "SDK已释放，无需重复释放")
         }
     }
 

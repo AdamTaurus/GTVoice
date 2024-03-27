@@ -15,6 +15,11 @@ interface IGTVoiceSDKAidlInterface {
       void startSpeechRecognition(String packageName,in List<String> list);
 
       /**
+      * 设置按钮角标状态
+      */
+      void setViewIndexState(String packageName,boolean state);
+
+      /**
       * 结束语音
       */
       void endSpeechRecognition(String packageName);

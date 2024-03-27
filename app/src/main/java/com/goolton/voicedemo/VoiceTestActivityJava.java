@@ -42,10 +42,10 @@ public class VoiceTestActivityJava extends Activity {
 
         // 添加按钮2
         button2 = new Button(this);
-        button2.setText("移除指令");
+        button2.setText("隐藏角标");
         button2.setOnClickListener(view -> {
-            // 清空命令词
-            GTVoiceManager.INSTANCE.clearKeywords();
+            // 隐藏角标
+            GTVoiceManager.INSTANCE.setViewIndexState(false);
         });
         layout.addView(button2);
 

@@ -34,6 +34,11 @@ GTVoiceManager.addKeywords(listOf("关键词1", "关键词2"))
 GTVoiceManager.clearKeywords()
 ```
 
+显示和隐藏按钮角标：
+
+```kotlin
+GTVoiceManager.setViewIndexState(true)
+```
 
 反初始化：当不再需要 GTVoiceManager 时，调用 unInit() 进行反初始化。
 
