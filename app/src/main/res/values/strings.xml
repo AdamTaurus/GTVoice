@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">VoiceDemo</string>
+    <string name="app_name_k">VoiceDemoKotlin</string>
+    <string name="app_name_j">VoiceDemoJava</string>
 </resources>

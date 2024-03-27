@@ -7,14 +7,6 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        create("release") {
-            keyAlias = "platform"
-            keyPassword = "c2000key"
-            storePassword = "c2000key"
-            storeFile = file("D:\\work\\VoiceDemo\\platform_c2000.keystore")
-        }
-    }
     namespace = "com.goolton.voicedemo"
     compileSdk = 34
 
@@ -38,7 +30,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

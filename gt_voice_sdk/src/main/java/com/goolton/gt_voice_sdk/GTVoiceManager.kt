@@ -15,6 +15,20 @@ import java.lang.ref.SoftReference
  * Description: 语音服务管理类
  * Author: Adam
  * Date: 2024/3/26
+ *
+ * 通过与语音服务通信添加app专属命令词
+ * 确保VoiceDriver版本大于等于：1.0.66
+ * 当应用位于后台时无法接受语音命令，即使未逆初始化也是如此
+ *
+ * 使用方式：
+ * 1. [addVoiceCallbackListener]
+ * 2. [init]
+ * 3. [addKeywords]
+ * 完成后即可在命令词被识别到时收到回调
+ * 用完后记得逆初始化，逆初始化后无论之前设置了多少个回调，都会被清空：
+ * 4.[until]
+ *
+ * 更加详细使用代码请参考demo
  */
 object GTVoiceManager {
     enum class VoiceState {
@@ -87,7 +101,7 @@ object GTVoiceManager {
     }
 
     /**
-     * SDK 初始化 所有调用都需要在初始化之后
+     * SDK 初始化 将绑定语音服务
      */
     @Synchronized
     fun init(context: Context) {
@@ -95,11 +109,16 @@ object GTVoiceManager {
         contextHolder = SoftReference(context.applicationContext)
         val intent = Intent()
         intent.component = ComponentName(gtPkg, voiceSDKService)
-        context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        try {
+            context.bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }catch (e:Exception){
+            Log.e(tag,"init error:${e.message}")
+        }
     }
 
     /**
      * 添加监听
+     * 可以在初始化前添加监听
      */
     fun addVoiceCallbackListener(listener: (state: VoiceState, data: String) -> Unit) {
         voiceCallbackList.add(listener)
@@ -119,6 +138,7 @@ object GTVoiceManager {
     fun unInit(context: Context) {
         if (isServiceBound) {
             try {
+                voiceCallbackList.clear()
                 binder.unregisterListener(context.packageName, callback)
                 context.unbindService(connection)
                 isServiceBound = false
@@ -134,6 +154,8 @@ object GTVoiceManager {
 
     /**
      * 添加命令词
+     * 每次新增会清空上次添加的命令词
+     * 英文下只支持纯英文，中文时只支持纯中文
      */
     fun addKeywords(keywords: List<String>) {
         val context = contextHolder.get()
