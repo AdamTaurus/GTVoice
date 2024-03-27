@@ -50,20 +50,6 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
-    // 输出类型
-    android.applicationVariants.all {
-        // 编译类型
-        val buildType = this.buildType.name
-        val flavor = this.flavorName
-        val currentDateTime: String = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
-        outputs.all {
-            // 判断是否是输出 apk 类型
-            if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
-                this.outputFileName = "VoiceDemo_${flavor}_${defaultConfig.versionName}_${currentDateTime}_$buildType.apk"
-            }
-        }
-    }
-
 }
 
 dependencies {
