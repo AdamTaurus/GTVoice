@@ -1,10 +1,13 @@
-# GTVoiceDemo
-   
+# GTVoice  
+
+该项目为通过aidl与VoiceDrive通信实现命令词设置和回调的演示项目，直接引用aar包或model：gt_voice_sdk，暂时无法通过implementation 'com.github.AdamTaurus:GTVoice:Tag'引用
+  
+
 # GTVoiceManager
 
 ## 简介
 
-GTVoiceManager 是一个用于管理 VoiceDrive 应用中语音服务的实用工具类。它提供了与语音服务交互的功能，包括添加自定义关键词、初始化和反初始化语音服务，并注册回调以接收语音识别结果。
+GTVoiceManager 是一个用于管理 VoiceDrive 应用中语音服务的实用工具类。它提供了与语音服务交互的功能，包括添加自定义关键词、初始化和反初始化语音服务，并注册回调以接收语音识别结果。  
 ```需要 VoiceDriver 版本为 1.0.66 或更高。```
 ## 使用方法
 
