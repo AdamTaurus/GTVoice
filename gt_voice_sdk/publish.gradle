@@ -42,7 +42,7 @@ afterEvaluate {
         }
 
         publications {
-            JohnBase(MavenPublication) {
+            VoiceSDK(MavenPublication) {
 //                from components.release
                 groupId = 'com.goolton.voicesdk'
                 artifactId = 'voice-sdk'
