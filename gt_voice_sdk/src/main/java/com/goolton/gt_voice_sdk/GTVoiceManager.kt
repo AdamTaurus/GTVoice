@@ -42,6 +42,7 @@ object GTVoiceManager {
     private var contextHolder: SoftReference<Context> = SoftReference(null)
     private lateinit var binder: IGTVoiceSDKAidlInterface
     private val model = GTVoiceModel()
+    private var voiceServiceState = VoiceState.STOP
 
     /**
      * 语音状态回调
@@ -58,6 +59,12 @@ object GTVoiceManager {
                 if (context != null) {
                     isServiceBound = true
                     binder.registerListener(context.packageName, callback)
+                    if (voiceServiceState != VoiceState.START) {
+                        voiceCallbackList.forEach {
+                            voiceServiceState = VoiceState.START
+                            it(VoiceState.START, "")
+                        }
+                    }
                 } else {
                     isServiceBound = false
                     callback.onError(-1)
@@ -81,18 +88,25 @@ object GTVoiceManager {
         }
 
         override fun onStart() {
-            voiceCallbackList.forEach {
-                it(VoiceState.START, "")
+            if (voiceServiceState != VoiceState.START) {
+                voiceServiceState = VoiceState.START
+                voiceCallbackList.forEach {
+                    it(VoiceState.START, "")
+                }
             }
         }
 
         override fun onStop() {
-            voiceCallbackList.forEach {
-                it(VoiceState.STOP, "")
+            if (voiceServiceState != VoiceState.STOP) {
+                voiceServiceState = VoiceState.STOP
+                voiceCallbackList.forEach {
+                    it(VoiceState.STOP, "")
+                }
             }
         }
 
         override fun onError(code: Int) {
+            voiceServiceState = VoiceState.ERROR
             voiceCallbackList.forEach {
                 it(VoiceState.ERROR, model.getCodeMessageByCode(code))
             }
@@ -179,7 +193,11 @@ object GTVoiceManager {
     fun addKeywords(keywords: List<String>) {
         val context = contextHolder.get()
         if (isServiceBound && context != null) {
-            binder.startSpeechRecognition(context.packageName, keywords)
+            if (keywords.contains("")){
+                Log.w(tag,"不能设置空字符串为命令词")
+            }else {
+                binder.startSpeechRecognition(context.packageName, keywords)
+            }
         } else {
             Log.e(tag, "命令设置失败，服务是否连接：$isServiceBound SDK是否初始化：${context != null}")
         }

@@ -33,10 +33,10 @@ public class VoiceTestActivityJava extends Activity {
 
         // 添加按钮1
         button1 = new Button(this);
-        button1.setText("添加指令");
+        button1.setText("开启角标");
         button1.setOnClickListener(view -> {
-            // 添加命令词
-            GTVoiceManager.INSTANCE.addKeywords(Arrays.asList("指令一", "指令二"));
+            // 开启角标
+            GTVoiceManager.INSTANCE.setViewIndexState(true);
         });
         layout.addView(button1);
 

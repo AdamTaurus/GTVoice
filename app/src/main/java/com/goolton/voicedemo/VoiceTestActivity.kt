@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.goolton.gt_voice_sdk.GTVoiceManager
 
 class VoiceTestActivity : Activity() {
@@ -31,6 +32,7 @@ class VoiceTestActivity : Activity() {
         button1.setOnClickListener {
             // 添加命令词
             GTVoiceManager.addKeywords(listOf("指令一", "指令二"))
+            Toast.makeText(this,"添加了关键词：指令一、指令二",Toast.LENGTH_SHORT).show()
         }
         layout.addView(button1)
         button2 = Button(this)

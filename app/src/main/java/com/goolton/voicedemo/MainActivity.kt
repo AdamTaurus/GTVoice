@@ -7,9 +7,11 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,25 +40,33 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VoiceTestScreen(context: Context) {
     var result by remember { mutableStateOf("语音未初始化") }
-
-    // 添加语音回调监听器
-    GTVoiceManager.addVoiceCallbackListener { state, data ->
-        result = when (state) {
-            GTVoiceManager.VoiceState.START -> "语音识别开始"
-            GTVoiceManager.VoiceState.STOP -> "语音识别结束"
-            GTVoiceManager.VoiceState.RESULT -> "语音识别结果：$data"
-            GTVoiceManager.VoiceState.ERROR -> "发生错误：$data"
-        }
-    }
+    var keywordInput by remember { mutableStateOf("") } // 添加输入框内容的状态
 
     Column {
-        Button(onClick = { GTVoiceManager.init(context) }) {
+        TextField(
+            value = keywordInput,
+            onValueChange = { keywordInput = it },
+            label = { Text("输入关键词") }
+        )
+        Button(onClick = {
+            // 添加语音回调监听器
+            GTVoiceManager.addVoiceCallbackListener { state, data ->
+                result = when (state) {
+                    GTVoiceManager.VoiceState.START -> "语音识别开始"
+                    GTVoiceManager.VoiceState.STOP -> "语音识别结束"
+                    GTVoiceManager.VoiceState.RESULT -> "语音识别结果：$data"
+                    GTVoiceManager.VoiceState.ERROR -> "发生错误：$data"
+                }
+            }
+            GTVoiceManager.init(context)
+        }) {
             Text(text = "初始化SDK")
         }
-        Button(onClick = { GTVoiceManager.addKeywords(listOf("关键词一", "关键词二")) }) {
+        Button(onClick = { GTVoiceManager.addKeywords(listOf(keywordInput,"关键字二")) }) {
             Text(text = "添加关键词")
         }
         Button(onClick = { GTVoiceManager.clearKeywords() }) {
