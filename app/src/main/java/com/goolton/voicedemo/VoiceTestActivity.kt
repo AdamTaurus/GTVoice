@@ -79,6 +79,11 @@ class VoiceTestActivity : Activity() {
         GTVoiceManager.init(this)
     }
 
+    override fun onPause() {
+        super.onPause()
+        finish()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         // 释放 GTVoiceManager

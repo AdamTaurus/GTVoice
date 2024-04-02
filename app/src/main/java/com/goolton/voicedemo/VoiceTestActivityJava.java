@@ -82,6 +82,12 @@ public class VoiceTestActivityJava extends Activity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         // 释放 GTVoiceManager

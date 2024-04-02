@@ -2,6 +2,7 @@ package com.goolton.voicedemo
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,10 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+    override fun onBackPressed() {
+        finish()
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,10 +71,16 @@ fun VoiceTestScreen(context: Context) {
         }) {
             Text(text = "初始化SDK")
         }
-        Button(onClick = { GTVoiceManager.addKeywords(listOf(keywordInput,"关键字二")) }) {
+        Button(onClick = {
+            Toast.makeText(context, "设置关键字：$keywordInput", Toast.LENGTH_SHORT).show()
+            GTVoiceManager.addKeywords(listOf(keywordInput, "关键字二"))
+        }) {
             Text(text = "添加关键词")
         }
-        Button(onClick = { GTVoiceManager.clearKeywords() }) {
+        Button(onClick = {
+            Toast.makeText(context, "关键字已清空", Toast.LENGTH_SHORT).show()
+            GTVoiceManager.clearKeywords()
+        }) {
             Text(text = "清空关键词")
         }
         Button(onClick = { GTVoiceManager.unInit(context) }) {
