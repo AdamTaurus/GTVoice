@@ -31,6 +31,9 @@ import java.lang.ref.SoftReference
  * 更加详细使用代码请参考demo
  */
 object GTVoiceManager {
+
+    const val error_code_service_unregistered = -2
+
     enum class VoiceState {
         STOP, RESULT, ERROR, START
     }
@@ -119,7 +122,14 @@ object GTVoiceManager {
      */
     @Synchronized
     fun init(context: Context) {
-        if (isServiceBound) return
+        if (isServiceBound){
+            try {
+                binder.unregisterListener(context.packageName, callback)
+                context.unbindService(connection)
+            }catch (e:Exception){
+                Log.e(tag,"服务取消绑定异常：${e.message}")
+            }
+        }
         contextHolder = SoftReference(context.applicationContext)
         val intent = Intent()
         intent.component = ComponentName(gtPkg, voiceSDKService)
@@ -171,6 +181,7 @@ object GTVoiceManager {
     fun unInit(context: Context) {
         if (isServiceBound) {
             try {
+                voiceServiceState = VoiceState.STOP
                 voiceCallbackList.clear()
                 binder.unregisterListener(context.packageName, callback)
                 context.unbindService(connection)
@@ -179,6 +190,8 @@ object GTVoiceManager {
             } catch (e: Exception) {
                 Log.e(tag, "服务解绑异常：${e.message}")
                 e.printStackTrace()
+                isServiceBound = false
+                callback.onError(error_code_service_unregistered)
             }
         } else {
             Log.w(tag, "SDK已释放，无需重复释放")

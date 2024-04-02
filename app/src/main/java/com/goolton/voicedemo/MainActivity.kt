@@ -43,6 +43,11 @@ class MainActivity : ComponentActivity() {
     override fun onBackPressed() {
         finish()
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        GTVoiceManager.unInit(this)
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,7 +77,7 @@ fun VoiceTestScreen(context: Context) {
             Text(text = "初始化SDK")
         }
         Button(onClick = {
-            Toast.makeText(context, "设置关键字：$keywordInput", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context.applicationContext, "设置关键字：$keywordInput", Toast.LENGTH_SHORT).show()
             GTVoiceManager.addKeywords(listOf(keywordInput, "关键字二"))
         }) {
             Text(text = "添加关键词")
