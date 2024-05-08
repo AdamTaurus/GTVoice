@@ -3,7 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 //    id 'maven-publish'
 }
-apply from: 'publish.gradle'
+//apply from: 'publish.gradle'
 
 android {
     namespace 'com.goolton.gt_voice_sdk_c'
@@ -42,7 +42,7 @@ dependencies {
 
 
 
-//publishing {
+//publishing { //编译：./gradlew :gt_voice_sdk:assembleRelease
 //    repositories {
 //        maven {
 //            name = "GitHubPackages"
