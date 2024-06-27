@@ -8,16 +8,24 @@
 是否显示，以及控件及其子控件的文字来自动生成命令词。同时语音能通过contentDescription属性来识别当前界面上支持的命令词
 
 ##  contentDescription属性配置说明
- 
+
 例子：
 >android:contentDescription="命令词"
 
 
 如果不需要识别该控件命令词：
-> android:contentDescription="gtKeyword_unsupported"
+> android:contentDescription="gtKeyword_unsupported"  
+> 该属性的作用主要是用于某些不希望被识别的控件，例如图片的名字这种无规律字符串,即使设为关键字也难以识别，或者其它中英文混合的文字。
 
-该属性的作用主要是用于某些不希望被识别的控件，例如图片的名字这种无规律字符串，
-即使设为关键字也难以识别，或者其它中英文混合的文字。
+
+如果不需要显示该控件的序号：
+> android:contentDescription = "gtKeyword_hindIndex"  
+> 该属性会隐藏该控件的序号
+
+
+多个属性可以组合使用，使用“|”隔开，但命令词必须位于第一位。例如：
+> android:contentDescription = "回到首页|gtKeyword_hindIndex"  
+> android:contentDescription = "gtKeyword_unsupported|gtKeyword_hindIndex"
 
 # GTVoiceManager
 
