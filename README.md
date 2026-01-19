@@ -1,6 +1,9 @@
 # GTVoice  
 
-该项目为通过aidl与VoiceDrive通信实现命令词设置和回调的演示项目，直接引用aar包或model：gt_voice_sdk，暂时无法通过implementation 'com.github.AdamTaurus:GTVoice:Tag'引用
+该项目为通过aidl与VoiceDrive通信实现命令词设置和回调的演示项目。支持三种集成方式：  
+- **JitPack（推荐）**：在根构建文件加入 JitPack 仓库后，直接依赖：`implementation 'com.github.AdamTaurus:GTVoice:1.0.7'`  
+- **AAR 包**：下载并引入 `GTVoice-1.0.7.aar`；  
+- **模块依赖**：以本地模块 `gt_voice_sdk` 的形式引入。
   
 # 注意⚠️  
     
@@ -76,7 +79,7 @@ GTVoiceManager.unInit(context)
 有关详细使用示例，请参考演示代码。
 
 
-How to To get a Git project into your build:
+How to get a Git project into your build:
 
 Step 1. Add the JitPack repository to your build file
 
@@ -97,5 +100,5 @@ Add it in your root build.gradle at the end of repositories:
 Step 2. Add the dependency
 
 	dependencies {
-	        implementation 'com.github.AdamTaurus:GTVoice:Tag'
+	        implementation 'com.github.AdamTaurus:GTVoice:1.0.7'
 	}
