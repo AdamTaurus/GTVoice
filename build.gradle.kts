@@ -4,3 +4,6 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.8.10" apply false
     id("com.android.library") version "8.1.2" apply false
 }
+
+group = providers.gradleProperty("GROUP").get()
+version = providers.gradleProperty("VERSION").get()

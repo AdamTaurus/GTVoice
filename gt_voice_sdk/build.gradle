@@ -1,9 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-//    id 'maven-publish'
+    id 'maven-publish'
 }
-//apply from: 'publish.gradle'
 
 android {
     namespace 'com.goolton.gt_voice_sdk_c'
@@ -36,26 +35,27 @@ android {
     }
 }
 
-dependencies {
+afterEvaluate {
+    publishing {
+        publications {
+            create("release", MavenPublication) {
+                from components.release            // 发布 AAR 的 release 变体
+                artifactId = 'GTVoice'
 
+                // 可从 gradle.properties 读取
+                groupId = findProperty('GROUP') ?: 'com.github.AdamTaurus'
+                version = findProperty('VERSION') ?: 'LOCAL'
+
+                pom {
+                    name = 'GTVoice'
+                    description = 'Goolton Voice SDK'
+                }
+            }
+        }
+    }
 }
 
-
-
-//publishing { //编译：./gradlew :gt_voice_sdk:assembleRelease
-//    repositories {
-//        maven {
-//            name = "GitHubPackages"
-//            url = uri("https://maven.pkg.github.com/AdamTaurus/GTVoice")
-//            credentials {
-//                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-//                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
-//            }
-//        }
-//    }
-//    publications {
-//        gpr(MavenPublication) {
-//            from(components.java)
-//        }
-//    }
-//}
+dependencies {
+    // Kotlin 依赖由插件自动添加
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.9.24"))
+}
