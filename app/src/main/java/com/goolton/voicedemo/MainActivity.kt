@@ -34,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.goolton.gt_voice_sdk.GTVoiceManager
 import com.goolton.voicedemo.ui.theme.VoiceDemoTheme
@@ -169,13 +170,14 @@ fun VoiceTestScreen(context: Context) {
                     keywords = keywords,
                     indexVisible = indexVisible,
                     modifier = Modifier
-                        .fillMaxWidth(0.48f)
+                        .weight(0.95f)
                         .verticalScroll(rememberScrollState())
                 )
                 VoiceActionPanel(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .weight(1.05f)
                         .verticalScroll(rememberScrollState()),
+                    compactLabels = true,
                     onInitClick = ::initSdk,
                     onAddKeywordsClick = ::submitKeywords,
                     onClearKeywordsClick = ::clearKeywords,
@@ -201,6 +203,7 @@ fun VoiceTestScreen(context: Context) {
                 )
                 VoiceActionPanel(
                     modifier = Modifier.fillMaxWidth(),
+                    compactLabels = false,
                     onInitClick = ::initSdk,
                     onAddKeywordsClick = ::submitKeywords,
                     onClearKeywordsClick = ::clearKeywords,
@@ -262,6 +265,7 @@ private fun VoiceInfoPanel(
 
 @Composable
 private fun VoiceActionPanel(
+    compactLabels: Boolean,
     onInitClick: () -> Unit,
     onAddKeywordsClick: () -> Unit,
     onClearKeywordsClick: () -> Unit,
@@ -274,55 +278,55 @@ private fun VoiceActionPanel(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+                .padding(8.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             Text(text = "操作面板", style = MaterialTheme.typography.headlineSmall)
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 VoiceActionButton(
-                    text = "初始化 SDK",
+                    text = if (compactLabels) "初始化" else "初始化 SDK",
                     onClick = onInitClick,
-                    modifier = Modifier.fillMaxWidth(0.48f)
+                    modifier = Modifier.weight(1f)
                 )
                 VoiceActionButton(
-                    text = "下发命令词",
+                    text = if (compactLabels) "下发命令" else "下发命令词",
                     onClick = onAddKeywordsClick,
-                    modifier = Modifier.fillMaxWidth(0.48f)
+                    modifier = Modifier.weight(1f)
                 )
             }
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 VoiceActionButton(
-                    text = "清空命令词",
+                    text = if (compactLabels) "清空命令" else "清空命令词",
                     onClick = onClearKeywordsClick,
-                    modifier = Modifier.fillMaxWidth(0.48f)
+                    modifier = Modifier.weight(1f)
                 )
                 VoiceActionButton(
-                    text = "释放 SDK",
+                    text = if (compactLabels) "释放 SDK" else "释放 SDK",
                     onClick = onUnInitClick,
-                    modifier = Modifier.fillMaxWidth(0.48f)
+                    modifier = Modifier.weight(1f)
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
             Text(text = "角标控制", style = MaterialTheme.typography.titleMedium)
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 VoiceActionButton(
                     text = "显示角标",
                     onClick = onShowIndexClick,
-                    modifier = Modifier.fillMaxWidth(0.48f)
+                    modifier = Modifier.weight(1f)
                 )
                 VoiceActionButton(
                     text = "隐藏角标",
                     onClick = onHideIndexClick,
-                    modifier = Modifier.fillMaxWidth(0.48f)
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
@@ -337,9 +341,13 @@ private fun VoiceActionButton(
 ) {
     Button(
         onClick = onClick,
-        modifier = modifier.height(56.dp)
+        modifier = modifier.height(52.dp)
     ) {
-        Text(text = text)
+        Text(
+            text = text,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
     }
 }
 
