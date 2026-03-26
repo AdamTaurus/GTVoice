@@ -198,18 +198,3 @@ android:contentDescription="gtKeyword_hindIndex"
 android:contentDescription="回到首页|gtKeyword_hindIndex"
 android:contentDescription="gtKeyword_unsupported|gtKeyword_hindIndex"
 ```
-
-## JitPack 发布与刷新构建
-
-仓库内已具备以下基础配置：
-
-- 根目录 `jitpack.yml` 使用 JDK 17
-- `gt_voice_sdk/build.gradle` 已配置 `maven-publish`
-- 根工程已声明 `GROUP=com.github.AdamTaurus`
-
-发布新版本的常用流程：
-
-1. 提交并推送代码到 GitHub
-2. 创建并推送版本标签，例如 `git tag 1.0.8 && git push origin 1.0.8`
-3. 打开 [JitPack](https://jitpack.io)，输入仓库地址并触发对应 tag 构建
-4. 构建成功后，将依赖版本改为新的 tag
